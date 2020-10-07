@@ -1,7 +1,6 @@
 use std::collections::HashSet;
 use std::env;
 use std::ffi::OsStr;
-use std::str::FromStr;
 
 use atty::{self, Stream};
 
@@ -183,7 +182,6 @@ impl App {
                 .matches
                 .value_of("tabs")
                 .map(String::from)
-                .or_else(|| env::var("BAT_TABS").ok())
                 .and_then(|t| t.parse().ok())
                 .unwrap_or(
                     if style_components.plain() && paging_mode == PagingMode::Never {
@@ -196,7 +194,6 @@ impl App {
                 .matches
                 .value_of("theme")
                 .map(String::from)
-                .or_else(|| env::var("BAT_THEME").ok())
                 .map(|s| {
                     if s == "default" {
                         String::from(HighlightingAssets::default_theme())
@@ -296,16 +293,6 @@ impl App {
             } else if matches.is_present("plain") {
                 [StyleComponent::Plain].iter().cloned().collect()
             } else {
-                let env_style_components: Option<Vec<StyleComponent>> = env::var("BAT_STYLE")
-                    .ok()
-                    .map(|style_str| {
-                        style_str
-                            .split(',')
-                            .map(|x| StyleComponent::from_str(&x))
-                            .collect::<Result<Vec<StyleComponent>>>()
-                    })
-                    .transpose()?;
-
                 matches
                     .value_of("style")
                     .map(|styles| {
@@ -315,7 +302,6 @@ impl App {
                             .filter_map(|style| style.ok())
                             .collect::<Vec<_>>()
                     })
-                    .or(env_style_components)
                     .unwrap_or_else(|| vec![StyleComponent::Full])
                     .into_iter()
                     .map(|style| style.components(self.interactive_output))
