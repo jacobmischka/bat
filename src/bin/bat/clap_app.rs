@@ -167,7 +167,8 @@ pub fn build_app(interactive_output: bool) -> ClapApp<'static, 'static> {
             .long_help(
                 "Set the tab width to T spaces. Use a width of 0 to pass tabs through \
                      directly",
-            ),
+            )
+			.hide_env_values(true)
     )
         .arg(
             Arg::with_name("wrap")
@@ -315,7 +316,8 @@ pub fn build_app(interactive_output: bool) -> ClapApp<'static, 'static> {
                     PAGER and BAT_PAGER environment variables. The default pager is 'less'. \
                     To control when the pager is used, see the '--paging' option. \
                     Example: '--pager \"less -RF\"'."
-                ),
+                )
+				.hide_env_values(true)
         )
         .arg(
             Arg::with_name("map-syntax")
@@ -347,7 +349,8 @@ pub fn build_app(interactive_output: bool) -> ClapApp<'static, 'static> {
                      '--theme=\"...\"' option to the configuration file or export the \
                      BAT_THEME environment variable (e.g.: export \
                      BAT_THEME=\"...\").",
-                ),
+                )
+				.hide_env_values(true)
         )
         .arg(
             Arg::with_name("list-themes")
@@ -406,7 +409,8 @@ pub fn build_app(interactive_output: bool) -> ClapApp<'static, 'static> {
                        and the header from the content.\n  \
                      * numbers: show line numbers in the side bar.\n  \
                      * snip: draw separation lines between distinct line ranges.",
-                ),
+                )
+				.hide_env_values(true)
         )
         .arg(
             Arg::with_name("line-range")
