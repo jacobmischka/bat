@@ -151,7 +151,7 @@ pub fn build_app(interactive_output: bool) -> ClapApp<'static, 'static> {
     app = app.arg(
         Arg::with_name("tabs")
             .long("tabs")
-			.env("BAT_TABS")
+            .env("BAT_TABS")
             .overrides_with("tabs")
             .takes_value(true)
             .value_name("T")
@@ -305,7 +305,7 @@ pub fn build_app(interactive_output: bool) -> ClapApp<'static, 'static> {
         .arg(
             Arg::with_name("pager")
                 .long("pager")
-				.env("BAT_PAGER")
+                .env("BAT_PAGER")
                 .overrides_with("pager")
                 .takes_value(true)
                 .value_name("command")
@@ -339,7 +339,7 @@ pub fn build_app(interactive_output: bool) -> ClapApp<'static, 'static> {
         .arg(
             Arg::with_name("theme")
                 .long("theme")
-				.env("BAT_THEME")
+                .env("BAT_THEME")
                 .overrides_with("theme")
                 .takes_value(true)
                 .help("Set the color theme for syntax highlighting.")
@@ -362,7 +362,7 @@ pub fn build_app(interactive_output: bool) -> ClapApp<'static, 'static> {
             Arg::with_name("style")
                 .long("style")
                 .value_name("components")
-				.env("BAT_STYLE")
+                .env("BAT_STYLE")
                 // Need to turn this off for overrides_with to work as we want. See the bottom most
                 // example at https://docs.rs/clap/2.32.0/clap/struct.Arg.html#method.overrides_with
                 .use_delimiter(false)

@@ -63,7 +63,6 @@ impl App {
             let mut config_matches = app
                 .clone()
                 .setting(AppSettings::NoBinaryName)
-                .setting(AppSettings::AllArgsOverrideSelf)
                 .get_matches_from(config_args);
 
             let mut args_matches = app.get_matches_from(wild::args_os());
@@ -71,17 +70,17 @@ impl App {
             for (name, arg) in config_matches
                 .args
                 .drain()
-                .filter(|(_, arg)| arg.occurs > 0)
+                // There are two cases when `occurs` and `vals.len()` don't match up,
+                // when there are defaults present, and when an environment variable is
+                // present.
+                // In both of those cases we want to disregard the config matches.
+                .filter(|(_, arg)| arg.occurs > 0 && arg.occurs == arg.vals.len() as u64)
             {
                 args_matches
                     .args
                     .entry(&name)
                     .and_modify(|matched_arg| {
-                        // There are two cases when `occurs` and `vals.len()` don't match up,
-                        // when there are defaults present, and when an environment variable is
-                        // present.
-                        // In both of those cases we want to disregard the config matches.
-                        if matched_arg.occurs == 0 && arg.occurs == arg.vals.len() as u64 {
+                        if matched_arg.occurs == 0 {
                             *matched_arg = arg.clone();
                         }
                     })
